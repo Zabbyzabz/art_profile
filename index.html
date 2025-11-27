@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanz Myint - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --dark: #0d0d0d;
+            --white: #FFFFFF;
+            --gray: #505050;
+            --light-gray: #2d2d2d;
+            --border-color: #3a3a3a;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow: hidden;
+        }
+
+        /* Video Background */
+        #bg-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 0;
+            opacity: 0.4;
+            filter: grayscale(100%);
+        }
+
+        /* Desktop */
+        .desktop {
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Taskbar */
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to bottom, #1f1f1f 0%, #0a0a0a 100%);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            gap: 2px;
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.9);
+        }
+
+        .start-button {
+            height: 32px;
+            padding: 0 16px;
+            background: linear-gradient(to bottom, #353535 0%, #1a1a1a 100%);
+            border: 1px solid #000;
+            border-radius: 3px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--white);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+            transition: all 0.15s;
+        }
+
+        .start-button:hover {
+            background: linear-gradient(to bottom, #454545 0%, #252525 100%);
+        }
+
+        .taskbar-item {
+            height: 32px;
+            padding: 0 12px;
+            background: linear-gradient(to bottom, #2a2a2a 0%, #1a1a1a 100%);
+            border: 1px solid #000;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.15s;
+            max-width: 180px;
+            overflow: hidden;
+        }
+
+        .taskbar-item.active {
+            background: linear-gradient(to bottom, #3a3a3a 0%, #252525 100%);
+            border-color: #505050;
+        }
+
+        .taskbar-item:hover {
+            background: linear-gradient(to bottom, #353535 0%, #252525 100%);
+        }
+
+        .taskbar-clock {
+            margin-left: auto;
+            height: 32px;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            font-size: 11px;
+        }
+
+        /* Windows */
+        .window {
+            position: absolute;
+            background: rgba(13, 13, 13, 0.95);
+            border: 1px solid #000;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+            display: none;
+            flex-direction: column;
+            animation: windowOpen 0.2s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes windowOpen {
+            from {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .window.active {
+            display: flex;
+        }
+
+        .window-titlebar {
+            height: 30px;
+            background: linear-gradient(to bottom, #252525 0%, #1a1a1a 100%);
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            border-bottom: 1px solid #000;
+            cursor: move;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .window-icon {
+            margin-right: 6px;
+            font-size: 14px;
+        }
+
+        .window-title {
+            font-size: 12px;
+            flex: 1;
+            font-weight: 400;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 1px;
+        }
+
+        .window-button {
+            width: 26px;
+            height: 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--white);
+            transition: all 0.15s;
+        }
+
+        .window-button:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .window-button.close:hover {
+            background: #e81123;
+        }
+
+        .window-content {
+            flex: 1;
+            overflow: auto;
+            padding: 20px;
+            background: rgba(10, 10, 10, 0.9);
+        }
+
+        /* Desktop Icons */
+        .desktop-icons {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .desktop-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            width: 80px;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 3px;
+            transition: background 0.15s;
+        }
+
+        .desktop-icon:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            filter: drop-shadow(1px 1px 3px rgba(0,0,0,0.8));
+        }
+
+        .icon-label {
+            font-size: 11px;
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+        }
+
+        /* Project Menu */
+        .project-menu {
+            position: fixed;
+            background: rgba(26, 26, 26, 0.98);
+            border: 1px solid #000;
+            border-radius: 4px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.9);
+            min-width: 320px;
+            z-index: 2000;
+            display: none;
+            padding: 4px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .project-menu.active {
+            display: block;
+            animation: menuOpen 0.15s ease-out;
+        }
+
+        @keyframes menuOpen {
+            from {
+                transform: scale(0.98);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .menu-category {
+            padding: 8px 16px;
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #808080;
+            letter-spacing: 1px;
+            font-weight: 600;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .menu-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.1s;
+        }
+
+        .menu-item:hover {
+            background: rgba(37, 37, 37, 0.8);
+        }
+
+        .menu-year {
+            font-size: 10px;
+            color: #808080;
+        }
+
+        /* About Window */
+        #about-window {
+            width: 700px;
+            height: 600px;
+        }
+
+        .profile-section {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        .profile-picture {
+            width: 110px;
+            height: 110px;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            border: 2px solid #3a3a3a;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            flex-shrink: 0;
+        }
+
+        .profile-info h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .username {
+            font-size: 13px;
+            color: #808080;
+            margin-bottom: 12px;
+        }
+
+        .credentials {
+            font-size: 12px;
+            color: #b0b0b0;
+            line-height: 1.5;
+        }
+
+        .artist-bio {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid #2a2a2a;
+            border-radius: 4px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
+
+        .artist-bio h3 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            color: #909090;
+            font-weight: 600;
+        }
+
+        .artist-bio p {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #d0d0d0;
+            margin-bottom: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        .info-item {
+            display: grid;
+            grid-template-columns: 130px 1fr;
+            gap: 14px;
+            padding: 12px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid #2a2a2a;
+            border-radius: 3px;
+        }
+
+        .info-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #808080;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 12px;
+            color: #c0c0c0;
+        }
+
+        /* Project Windows */
+        .project-window {
+            width: 720px;
+            height: 550px;
+        }
+
+        .project-hero {
+            background: rgba(26, 26, 26, 0.8);
+            padding: 28px;
+            border: 1px solid #2a2a2a;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .project-hero h2 {
+            font-size: 36px;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 11px;
+            color: #909090;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .project-section h3 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            color: #808080;
+            font-weight: 600;
+        }
+
+        .project-info {
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #d0d0d0;
+        }
+
+        .project-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            border: 1px solid #2a2a2a;
+            border-radius: 4px;
+        }
+
+        .project-video {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 20px;
+            border: 1px solid #2a2a2a;
+            border-radius: 4px;
+        }
+
+        .project-details {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 10px;
+            padding: 14px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid #2a2a2a;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-bottom: 16px;
+        }
+
+        .detail-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #808080;
+            font-weight: 600;
+        }
+
+        .action-button {
+            padding: 10px 20px;
+            background: linear-gradient(to bottom, #353535 0%, #1a1a1a 100%);
+            color: var(--white);
+            border: 1px solid #000;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.15s;
+        }
+
+        .action-button:hover {
+            background: linear-gradient(to bottom, #454545 0%, #252525 100%);
+        }
+
+        /* CV Window */
+        #cv-window {
+            width: 800px;
+            height: 650px;
+        }
+
+        .cv-embed {
+            width: 100%;
+            height: 560px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid #2a2a2a;
+            border-radius: 4px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 10, 10, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border: 2px solid rgba(10, 10, 10, 0.5);
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3a3a3a;
+        }
+    </style>
+</head>
+<body>
+    <video id="bg-video" autoplay loop muted playsinline preload="auto" webkit-playsinline>
+        <source src="background-video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="desktop">
+        <!-- Desktop Icons -->
+        <div class="desktop-icons">
+            <div class="desktop-icon" onclick="openWindow('about-window', 'about-task')">
+                <div class="icon-box">👤</div>
+                <div class="icon-label">About.exe</div>
+            </div>
+            <div class="desktop-icon" onclick="showProjectMenu(event)">
+                <div class="icon-box">📁</div>
+                <div class="icon-label">Projects.exe</div>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('cv-window', 'cv-task')">
+                <div class="icon-box">📄</div>
+                <div class="icon-label">CV.pdf</div>
+            </div>
+        </div>
+
+        <!-- Project Menu -->
+        <div id="project-menu" class="project-menu">
+            <div class="menu-category">2024-2025 Projects</div>
+            <div class="menu-item" onclick="openProjectWindow('meowmeow'); hideProjectMenu();">
+                <span>Meowmeowmeow: everybody loves you</span>
+                <span class="menu-year">2025</span>
+            </div>
+            <div class="menu-item" onclick="openProjectWindow('assume'); hideProjectMenu();">
+                <span>you think you know me</span>
+                <span class="menu-year">2025</span>
+            </div>
+            <div class="menu-item" onclick="openProjectWindow('piece'); hideProjectMenu();">
+                <span>A Piece of Home + A Piece Of You</span>
+                <span class="menu-year">2025</span>
+            </div>
+            <div class="menu-item" onclick="openProjectWindow('hungry'); hideProjectMenu();">
+                <span>Hangry_Consume</span>
+                <span class="menu-year">2024</span>
+            </div>
+            <div class="menu-item" onclick="openProjectWindow('digital-girl'); hideProjectMenu();">
+                <span>D16174! G1rl'5 vL06</span>
+                <span class="menu-year">2024</span>
+            </div>
+            <div class="menu-item" onclick="openProjectWindow('killself'); hideProjectMenu();">
+                <span>killselfFINAL</span>
+                <span class="menu-year">2024</span>
+            </div>
+        </div>
+
+        <!-- About Window -->
+        <div id="about-window" class="window">
+            <div class="window-titlebar">
+                <span class="window-icon">👤</span>
+                <span class="window-title">About - Vanz Myint</span>
+                <div class="window-controls">
+                    <button class="window-button" onclick="minimizeWindow('about-window')">−</button>
+                    <button class="window-button close" onclick="closeWindow('about-window', 'about-task')">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="profile-section">
+                    <div class="profile-picture">
+                        <img src="profile.png" alt="Vanz" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                    </div>
+                    <div class="profile-info">
+                        <h1>Vanessa Aye Sabai Myint</h1>
+                        <div class="username">@zabbyzabzab / Vanz</div>
+                        <div class="credentials">
+                            Multidisciplinary Artist<br>
+                            Bachelor of Fine Arts, RMIT University<br>
+                            Based in Melbourne & Singapore
+                        </div>
+                    </div>
+                </div>
+
+                <div class="artist-bio">
+                    <h3>Artist Bio</h3>
+                    <p>
+                        Vanessa Aye Sabai Myint / VANZ (born in 2000, Sydney; Blacktown; based in Melbourne and Singapore) is a multidisciplinary artist working across video, sound, installation, and digital media. Much of her practice unfolds in the digital space, where she treats the screen as both a mirror and a diary—an intimate site for reflection, play, and storytelling.
+                    </p>
+                    <p>
+                        VANZ is interested in how digital spaces can hold memory, capture fleeting emotions, and create small portals into inner worlds. Her works often are about the appreciation of digital space while also bring up conversations of digital manifestations into physical manifestations, and how digital spaces have shaped today's youth, culture and psychology, creating poetic environments where audiences are encouraged to pause, listen, and wander.
+                    </p>
+                    <p>
+                        Vanessa is also engaged in collaborative and curatorial work, most notably as Gallery Executive at STARCH in Singapore, where she has helped shape exhibitions and public programs, including projects for Singapore Art Week. She values the digital not just as a medium, but as a community space, where connection, vulnerability, and creativity can all exist side by side.
+                    </p>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Education</div>
+                        <div class="info-value">BFA RMIT University (2023-2025)<br>Diploma Fine Arts LASALLE (2017-2021)</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Mediums</div>
+                        <div class="info-value">Video, Sound, Installation, Digital Media, Cyanotypes, Brass, Mixed Media</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Website</div>
+                        <div class="info-value">vanessaaye.wixsite.com/van-s-journal</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Contact</div>
+                        <div class="info-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3b4d5a555e48485a15564252554f030a7b5c565a525715585456">[email&#160;protected]</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CV Window -->
+        <div id="cv-window" class="window">
+            <div class="window-titlebar">
+                <span class="window-icon">📄</span>
+                <span class="window-title">CV.pdf - Vanessa Aye Sabai Myint</span>
+                <div class="window-controls">
+                    <button class="window-button" onclick="minimizeWindow('cv-window')">−</button>
+                    <button class="window-button close" onclick="closeWindow('cv-window', 'cv-task')">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <embed src="cv.pdf" type="application/pdf" width="100%" height="560px" class="cv-embed" />
+            </div>
+        </div>
+
+        <!-- Meowmeow Project Window -->
+        <div id="meowmeow-window" class="window project-window">
+            <div class="window-titlebar">
+                <span class="window-icon">📁</span>
+                <span class="window-title">Meowmeowmeow: everybody loves you</span>
+                <div class="window-controls">
+                    <button class="window-button" onclick="minimizeWindow('meowmeow-window')">−</button>
+                    <button class="window-button close" onclick="closeWindow('meowmeow-window', 'meowmeow-task')">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="project-hero">
+                    <h2>Meowmeowmeow:<br>everybody loves you</h2>
+                    <div class="project-meta">
+                        <span>2025</span>
+                        <span>Interactive / Webcam</span>
+                    </div>
+                </div>
+                <div class="project-section">
+                    <iframe src="https://zabbyzabz.github.io/meowmeow-filter-ipad/" 
+                            width="100%" 
+                            height="400px" 
+                            frameborder="0"
+                            style="border: 1px solid #2a2a2a; border-radius: 4px; margin-bottom: 20px;"></iframe>
+                    
+                    <h3>Info</h3>
+                    <div class="project-info">
+                        An interactive webcam experience that invites participants to engage with playful digital filters. The work explores themes of self-presentation, digital identity, and the joy of play in online spaces. Through the meowmap navigation system, users discover various filter interactions that transform their image in real-time, creating a collaborative space where technology becomes a tool for creative expression and connection.
+                    </div>
+                    <div class="project-details">
+                        <div class="detail-label">Medium</div>
+                        <div>Interactive, webcam</div>
+                        <div class="detail-label">Platform</div>
+                        <div>Web-based, iPad optimized</div>
+                    </div>
+                    <a href="https://zabbyzabz.github.io/meowmeow-filter-ipad/" target="_blank" class="action-button">OPEN FULL PROJECT →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assume Project Window -->
+        <div id="assume-window" class="window project-window">
+            <div class="window-titlebar">
+                <span class="window-icon">📁</span>
+                <span class="window-title">you think you know me</span>
+                <div class="window-controls">
+                    <button class="window-button" onclick="minimizeWindow('assume-window')">−</button>
+                    <button class="window-button close" onclick="closeWindow('assume-window', 'assume-task')">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="project-hero">
+                    <h2>you think you know me</h2>
+                    <div class="project-meta">
+                        <span>2025</span>
+                        <span>Cyanotypes / Receipts / Mixed Media</span>
+                    </div>
+                </div>
+                <div class="project-section">
+                    <img src="assume-image.png" alt="you think you know me" class="project-image">
+                    
+                    <h3>Artist Statement</h3>
+                    <div class="project-info">
+                        In <em>you think you know me</em>, I explore the delicate space between anonymity and intimacy, between the self we present and the one we withhold. Using found receipts, fragmented images of the body, and worn denim, the work becomes a meditation on the fleeting relationships we form with strangers and with ourselves. These materials—familiar yet overlooked—serve as quiet witnesses to our daily rituals, choices, and vulnerabilities.
+                        <br><br>
+                        Receipts, often discarded without thought, act here as emotional artifacts. They mark moments of presence, transactions, routines, and the echoes of lives we may never fully see. Layered together, they form a kind of personal archive that speaks to both connection and distance: the intimacy of recognition without knowing, of shared experience without names.
+                        <br><br>
+                        The fragmented photographs of bodies—cropped and abstracted—gesture toward both self-exposure and concealment. They resist the complete gaze, offering glimpses that challenge the viewer to reconsider how we come to know another person, or even ourselves. Who do we become in the eyes of a stranger? What parts of us are misread, assumed, or erased?
+                        <br><br>
+                        Grounded in a feminist perspective, the work critiques how femme bodies are consumed and catalogued—both in media and in memory. Denim, marked by wear and repetition, evokes labour, care, and resilience. The hanging, layered textures echo the emotional residues we carry, both visible and hidden.
+                        <br><br>
+                        <em>you think you know me</em> invites the viewer to linger in the tension between closeness and distance, the familiar and the unknown. It is a quiet assertion: that beneath every surface lies complexity, and that true understanding, of others or ourselves, is always partial, always in flux.
+                    </div>
+                    <div class="project-details">
+                        <div class="detail-label">Medium</div>
+                        <div>Cyanotypes, receipts, denim, photography</div>
+                        <div class="detail-label">Themes</div>
+                        <div>Identity, assumption, material culture, intimacy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- A Piece of Home Project Window -->
+        <div id="piece-window" class="window project-window">
+            <div class="window-titlebar">
+                <span class="window-icon">📁</span>
+                <span class="window-title">A Piece of Home + A Piece Of You</span>
+                <div class="window-controls">
+                    <button class="window-button" onclick="minimizeWindow('piece-window')">−</button>
+                    <button class="window-button close" onclick="closeWindow('piece-window', 'piece-task')">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="project-hero">
+                    <h2>A Piece of Home +<br>A Piece Of You</h2>
+                    <div class="project-meta">
+                        <span>2025</span>
+                        <span>Brass</span>
+                    </div>
+                </div>
+                <div class="project-section">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+                        <img src="piece-of-home-1.png" alt="A Piece of Home - Full view" class="project-image" style="margin: 0;">
+                        <img src="piece-of-home-2.png" alt="A Piece of Home - Details" class="project-image" style="margin: 0;">
+                    </div>
+                    
+                    <h3>Info</h3>
+                    <div class="project-info">
+                        <strong>A Piece of Home + A Piece Of You</strong> explores nostalgia.
+                        <br><br>
+                        <em>A Piece Of You</em> carries the engravement of the song title "You Are My Sunshine". A song my grandmother used to sing to me, even near her death. Encrypted in binary codes for my love for technology. The code is all jumbled up to mimic the first bedroom I slept and grew up in when I first moved to Singapore and met my brothers. There I used to scribble on the walls, thinking it was a giant canvas. My grandmother taught me how to draw stars, resulting in me filling the 'canvas' with stars.
+                        <br><br>
+                        The star being the piece of home, with engravements of birth dates of family members, including the newest member, which is Thea, my brother's daughter.
+                        <br><br>
+                        The work isn't complete till my memory fades, and I no longer know any birth dates of the immediate family members. Dates will keep engraving as the family tree extends, even if there is no more space for the dates, numbers will be engraved over and over, till I no longer know their dates.
+                        <br><br>
+                        <em>This work is dedicated to my mother and grandmother.</em>
+                    </div>
+                    <div class="project-details">
+                        <div class="detail-label">Medium</div>
+                        <div>Brass</div>
+                        <div class="detail-label">Dimensions</div>
+                        <div>10.5 cm</div>
+                        <div class="detail-label">Themes</div>
+                        <div>Nostalgia, family, memory, home</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hangry Project Window -->
+        <div id="hungry-window" class="window project-window">
+            <div class="window-titlebar">
+                <span class="window-icon">📁</span>
+                <span class="window-title">Hangry_Consume</span>
+                <div class="window-controls">
+                    <button class="window-button" onclick="minimizeWindow('hungry-window')">−</button>
+                    <button class="window-button close" onclick="closeWindow('hungry-window', 'hungry-task')">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="project-hero">
+                    <h2>Hangry_Consume</h2>
+                    <div class="project-meta">
+                        <span>2024</span>
+                        <span>Video</span>
+                    </div>
+                </div>
+                <div class="project-section">
+                    <iframe class="project-video"
+                            src="https://www.youtube.com/embed/HKaRZFMv5tQ" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                    
+                    <h3>Info</h3>
+                    <div class="project-info">
+                        A video work interrogating cycles of desire and consumption in contemporary culture. Through visual metaphors and rhythmic editing, the piece explores the insatiable nature of want—how we consume media, products, experiences, and relationships with an endless hunger that never quite satisfies.
+                    </div>
+                    <div class="project-details">
+                        <div class="detail-label">Medium</div>
+                        <div>Video</div>
+                        <div class="detail-label">Themes</div>
+                        <div>Consumption, desire, capitalism</div>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=HKaRZFMv5tQ" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Digital Girl Project Window -->
+        <div id="digital-girl-window" class="window project-window">
+            <div class="window-titlebar">
+                <span class="window-icon">📁</span>
+                <span class="window-title">D16174! G1rl'5 vL06</span>
+                <div class="window-controls">
+                    <button class="window-button" onclick="minimizeWindow('digital-girl-window')">−</button>
+                    <button class="window-button close" onclick="closeWindow('digital-girl-window', 'digital-girl-task')">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="project-hero">
+                    <h2>D16174! G1rl'5 vL06</h2>
+                    <div class="project-meta">
+                        <span>2024</span>
+                        <span>Video</span>
+                    </div>
+                </div>
+                <div class="project-section">
+                    <iframe class="project-video"
+                            src="https://www.youtube.com/embed/HKaRZFMv5tQ" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                    
+                    <h3>Info</h3>
+                    <div class="project-info">
+                        A video exploration of digital identity and online self-presentation through the lens of vlog culture. The work employs internet aesthetics—leetspeak typography, digital artifacts, and hyperactive editing—to examine how we perform identity in digital spaces.
+                    </div>
+                    <div class="project-details">
+                        <div class="detail-label">Medium</div>
+                        <div>Video</div>
+                        <div class="detail-label">Style</div>
+                        <div>Digital aesthetics, vlog format</div>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=HKaRZFMv5tQ" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Killself Project Window -->
+        <div id="killself-window" class="window project-window">
+            <div class="window-titlebar">
+                <span class="window-icon">📁</span>
+                <span class="window-title">killselfFINAL</span>
+                <div class="window-controls">
+                    <button class="window-button" onclick="minimizeWindow('killself-window')">−</button>
+                    <button class="window-button close" onclick="closeWindow('killself-window', 'killself-task')">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="project-hero">
+                    <h2>killselfFINAL</h2>
+                    <div class="project-meta">
+                        <span>2024</span>
+                        <span>Video / Touch Design</span>
+                    </div>
+                </div>
+                <div class="project-section">
+                    <iframe class="project-video"
+                            src="https://www.youtube.com/embed/G5b1sc1_WDE" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                    
+                    <h3>Info</h3>
+                    <div class="project-info">
+                        A multimedia work combining video with touch-based design elements. The title references the familiar frustration of file naming and digital labor, exploring themes of creative exhaustion and the perpetual "final" draft that never quite ends.
+                    </div>
+                    <div class="project-details">
+                        <div class="detail-label">Medium</div>
+                        <div>Video, touch design</div>
+                        <div class="detail-label">Themes</div>
+                        <div>Creative process, digital labor</div>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=G5b1sc1_WDE" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Taskbar -->
+        <div class="taskbar">
+            <button class="start-button">START</button>
+            <div id="about-task" class="taskbar-item" onclick="openWindow('about-window', 'about-task')" style="display: none;">
+                👤 About
+            </div>
+            <div id="cv-task" class="taskbar-item" onclick="openWindow('cv-window', 'cv-task')" style="display: none;">
+                📄 CV
+            </div>
+            <div id="meowmeow-task" class="taskbar-item" onclick="openWindow('meowmeow-window', 'meowmeow-task')" style="display: none;">
+                📁 Meowmeowmeow
+            </div>
+            <div id="assume-task" class="taskbar-item" onclick="openWindow('assume-window', 'assume-task')" style="display: none;">
+                📁 you think you know me
+            </div>
+            <div id="piece-task" class="taskbar-item" onclick="openWindow('piece-window', 'piece-task')" style="display: none;">
+                📁 A Piece of Home
+            </div>
+            <div id="hungry-task" class="taskbar-item" onclick="openWindow('hungry-window', 'hungry-task')" style="display: none;">
+                📁 Hangry_Consume
+            </div>
+            <div id="digital-girl-task" class="taskbar-item" onclick="openWindow('digital-girl-window', 'digital-girl-task')" style="display: none;">
+                📁 D16174!
+            </div>
+            <div id="killself-task" class="taskbar-item" onclick="openWindow('killself-window', 'killself-task')" style="display: none;">
+                📁 killselfFINAL
+            </div>
+            <div class="taskbar-clock" id="clock">00:00</div>
+        </div>
+    </div>
+
+    <script>
+        // Ensure background video plays
+        document.addEventListener('DOMContentLoaded', function() {
+            const bgVideo = document.getElementById('bg-video');
+            if (bgVideo) {
+                bgVideo.play().catch(e => {
+                    console.log('Video autoplay prevented:', e);
+                    // If autoplay fails, try again on first click
+                    document.addEventListener('click', function playVideo() {
+                        bgVideo.play();
+                        document.removeEventListener('click', playVideo);
+                    }, { once: true });
+                });
+            }
+        });
+
+        // Project Menu
+        function showProjectMenu(event) {
+            const menu = document.getElementById('project-menu');
+            const iconBox = event.target.closest('.desktop-icon');
+            const rect = iconBox.getBoundingClientRect();
+            
+            menu.classList.add('active');
+            menu.style.left = (rect.right + 10) + 'px';
+            menu.style.top = rect.top + 'px';
+        }
+
+        function hideProjectMenu() {
+            document.getElementById('project-menu').classList.remove('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.desktop-icon') && !e.target.closest('.project-menu')) {
+                hideProjectMenu();
+            }
+        });
+
+        // Project Windows
+        const projectMap = {
+            'meowmeow': { window: 'meowmeow-window', task: 'meowmeow-task' },
+            'assume': { window: 'assume-window', task: 'assume-task' },
+            'piece': { window: 'piece-window', task: 'piece-task' },
+            'hungry': { window: 'hungry-window', task: 'hungry-task' },
+            'digital-girl': { window: 'digital-girl-window', task: 'digital-girl-task' },
+            'killself': { window: 'killself-window', task: 'killself-task' }
+        };
+
+        function openProjectWindow(projectId) {
+            const project = projectMap[projectId];
+            if (project) {
+                openWindow(project.window, project.task);
+            }
+        }
+
+        // Window Management
+        function openWindow(windowId, taskId) {
+            const window = document.getElementById(windowId);
+            const task = document.getElementById(taskId);
+            
+            document.querySelectorAll('.window').forEach(w => {
+                if (w.id !== windowId) w.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.taskbar-item').forEach(t => {
+                t.classList.remove('active');
+            });
+            
+            window.classList.add('active');
+            task.style.display = 'flex';
+            task.classList.add('active');
+            
+            const allWindows = document.querySelectorAll('.window');
+            allWindows.forEach((w, i) => w.style.zIndex = 100 + i);
+            window.style.zIndex = 100 + allWindows.length;
+        }
+
+        function closeWindow(windowId, taskId) {
+            document.getElementById(windowId).classList.remove('active');
+            document.getElementById(taskId).style.display = 'none';
+        }
+
+        function minimizeWindow(windowId) {
+            document.getElementById(windowId).classList.remove('active');
+        }
+
+        // Clock
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false 
+            });
+            document.getElementById('clock').textContent = time;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Draggable Windows
+        document.querySelectorAll('.window').forEach(windowEl => {
+            const titlebar = windowEl.querySelector('.window-titlebar');
+            let isDragging = false;
+            let startX, startY, initialX, initialY;
+
+            titlebar.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.window-button')) return;
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                initialX = windowEl.offsetLeft;
+                initialY = windowEl.offsetTop;
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                windowEl.style.left = (initialX + dx) + 'px';
+                windowEl.style.top = (initialY + dy) + 'px';
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+        });
+
+        // Position windows
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.window').forEach((win, i) => {
+                const offset = i * 30;
+                win.style.left = `calc(20% + ${offset}px)`;
+                win.style.top = `calc(10% + ${offset}px)`;
+            });
+
+            setTimeout(() => openWindow('about-window', 'about-task'), 300);
+        });
+    </script>
+</body>
+</html>
