@@ -30,7 +30,7 @@
             overflow: hidden;
         }
 
-        /* Video Background */
+        /* Background Video */
         #bg-video {
             position: fixed;
             top: 50%;
@@ -41,8 +41,9 @@
             height: auto;
             transform: translateX(-50%) translateY(-50%);
             z-index: 0;
-            opacity: 0.4;
+            opacity: 0.3;
             filter: grayscale(100%);
+            object-fit: cover;
         }
 
         /* Desktop */
@@ -125,7 +126,7 @@
         /* Windows */
         .window {
             position: absolute;
-            background: rgba(13, 13, 13, 0.95);
+            background: rgba(13, 13, 13, 0.98);
             border: 1px solid #000;
             border-radius: 8px 8px 0 0;
             box-shadow: 0 10px 40px rgba(0,0,0,0.9);
@@ -200,7 +201,7 @@
             flex: 1;
             overflow: auto;
             padding: 20px;
-            background: rgba(10, 10, 10, 0.9);
+            background: rgba(10, 10, 10, 0.95);
         }
 
         /* Desktop Icons */
@@ -253,11 +254,13 @@
             border: 1px solid #000;
             border-radius: 4px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.9);
-            min-width: 320px;
+            min-width: 340px;
             z-index: 2000;
             display: none;
             padding: 4px 0;
             backdrop-filter: blur(10px);
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
         .project-menu.active {
@@ -323,11 +326,8 @@
             background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
             border: 2px solid #3a3a3a;
             border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 42px;
             flex-shrink: 0;
+            overflow: hidden;
         }
 
         .profile-info h1 {
@@ -402,22 +402,22 @@
 
         /* Project Windows */
         .project-window {
-            width: 720px;
-            height: 550px;
+            width: 750px;
+            height: 580px;
         }
 
         .project-hero {
             background: rgba(26, 26, 26, 0.8);
-            padding: 28px;
+            padding: 24px;
             border: 1px solid #2a2a2a;
             border-radius: 4px;
             margin-bottom: 20px;
         }
 
         .project-hero h2 {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 600;
-            line-height: 1.1;
+            line-height: 1.2;
             margin-bottom: 12px;
         }
 
@@ -455,12 +455,23 @@
             border-radius: 4px;
         }
 
-        .project-video {
+        .project-iframe {
             width: 100%;
-            height: 300px;
+            height: 450px;
             margin-bottom: 20px;
             border: 1px solid #2a2a2a;
             border-radius: 4px;
+            background: #000;
+            zoom: 0.7;
+        }
+
+        .project-video {
+            width: 100%;
+            height: 340px;
+            margin-bottom: 20px;
+            border: 1px solid #2a2a2a;
+            border-radius: 4px;
+            background: #000;
         }
 
         .project-details {
@@ -503,16 +514,77 @@
 
         /* CV Window */
         #cv-window {
-            width: 800px;
+            width: 750px;
             height: 650px;
         }
 
-        .cv-embed {
-            width: 100%;
-            height: 560px;
-            background: rgba(26, 26, 26, 0.8);
+        .cv-document {
+            background: rgba(20, 20, 20, 0.95);
             border: 1px solid #2a2a2a;
             border-radius: 4px;
+            padding: 32px;
+            max-width: 100%;
+        }
+
+        .cv-header {
+            border-bottom: 2px solid #3a3a3a;
+            padding-bottom: 20px;
+            margin-bottom: 24px;
+        }
+
+        .cv-header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .cv-contact {
+            font-size: 11px;
+            color: #909090;
+            line-height: 1.6;
+        }
+
+        .cv-section {
+            margin-bottom: 28px;
+        }
+
+        .cv-section h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #b0b0b0;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 8px;
+        }
+
+        .cv-entry {
+            margin-bottom: 20px;
+        }
+
+        .cv-entry h3 {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .cv-entry .cv-meta {
+            font-size: 11px;
+            color: #808080;
+            margin-bottom: 8px;
+        }
+
+        .cv-entry ul {
+            margin-left: 20px;
+            font-size: 12px;
+            line-height: 1.7;
+            color: #c0c0c0;
+        }
+
+        .cv-entry p {
+            font-size: 12px;
+            line-height: 1.7;
+            color: #c0c0c0;
         }
 
         /* Scrollbar */
@@ -536,7 +608,7 @@
     </style>
 </head>
 <body>
-    <video id="bg-video" autoplay loop muted playsinline preload="auto" webkit-playsinline>
+    <video id="bg-video" autoplay loop muted playsinline preload="auto">
         <source src="background-video.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
@@ -562,15 +634,15 @@
         <div id="project-menu" class="project-menu">
             <div class="menu-category">2024-2025 Projects</div>
             <div class="menu-item" onclick="openProjectWindow('meowmeow'); hideProjectMenu();">
-                <span>Meowmeowmeow: everybody loves you</span>
+                <span>MEOWMEOWMEOW: Everybody Loves You</span>
                 <span class="menu-year">2025</span>
             </div>
             <div class="menu-item" onclick="openProjectWindow('assume'); hideProjectMenu();">
-                <span>you think you know me</span>
+                <span>You Think You Know Me</span>
                 <span class="menu-year">2025</span>
             </div>
             <div class="menu-item" onclick="openProjectWindow('piece'); hideProjectMenu();">
-                <span>A Piece of Home + A Piece Of You</span>
+                <span>A Piece Of Home + A Piece Of You</span>
                 <span class="menu-year">2025</span>
             </div>
             <div class="menu-item" onclick="openProjectWindow('hungry'); hideProjectMenu();">
@@ -578,12 +650,21 @@
                 <span class="menu-year">2024</span>
             </div>
             <div class="menu-item" onclick="openProjectWindow('digital-girl'); hideProjectMenu();">
-                <span>D16174! G1rl'5 vL06</span>
+                <span>D16174! G1rl'5 VL06</span>
                 <span class="menu-year">2024</span>
             </div>
             <div class="menu-item" onclick="openProjectWindow('killself'); hideProjectMenu();">
-                <span>killselfFINAL</span>
+                <span>KillselfFINAL</span>
                 <span class="menu-year">2024</span>
+            </div>
+            <div class="menu-category">2020-2023 Projects</div>
+            <div class="menu-item" onclick="openProjectWindow('fluid'); hideProjectMenu();">
+                <span>Fluid Spaces</span>
+                <span class="menu-year">2021</span>
+            </div>
+            <div class="menu-item" onclick="openProjectWindow('lasalle'); hideProjectMenu();">
+                <span>The LASALLE Show 2021</span>
+                <span class="menu-year">2021</span>
             </div>
         </div>
 
@@ -600,7 +681,7 @@
             <div class="window-content">
                 <div class="profile-section">
                     <div class="profile-picture">
-                        <img src="profile.png" alt="Vanz" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                        <img src="profile.png" alt="Vanz" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="profile-info">
                         <h1>Vanessa Aye Sabai Myint</h1>
@@ -641,7 +722,7 @@
                     </div>
                     <div class="info-item">
                         <div class="info-label">Contact</div>
-                        <div class="info-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3b4d5a555e48485a15564252554f030a7b5c565a525715585456">[email&#160;protected]</a></div>
+                        <div class="info-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0d7b6c63687e7e6c236074646379353c4d6a606c6461236e6260">[email&#160;protected]</a></div>
                     </div>
                 </div>
             </div>
@@ -651,22 +732,125 @@
         <div id="cv-window" class="window">
             <div class="window-titlebar">
                 <span class="window-icon">📄</span>
-                <span class="window-title">CV.pdf - Vanessa Aye Sabai Myint</span>
+                <span class="window-title">CV - Vanessa Aye Sabai Myint</span>
                 <div class="window-controls">
                     <button class="window-button" onclick="minimizeWindow('cv-window')">−</button>
                     <button class="window-button close" onclick="closeWindow('cv-window', 'cv-task')">×</button>
                 </div>
             </div>
             <div class="window-content">
-                <embed src="cv.pdf" type="application/pdf" width="100%" height="560px" class="cv-embed" />
+                <div class="cv-document">
+                    <div class="cv-header">
+                        <h1>Vanessa Aye Sabai Myint (Vanz)</h1>
+                        <div class="cv-contact">
+                            P307 / 348 St Kilda Rd, Melbourne VIC 3004<br>
+                            +61 456 458 866 | <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bec8dfd0dbcdcddf90d3c7d7d0ca868ffed9d3dfd7d290ddd1d3">[email&#160;protected]</a><br>
+                            https://vanessaaye.wixsite.com/van-s-journal
+                        </div>
+                    </div>
+
+                    <div class="cv-section">
+                        <h2>Education</h2>
+                        <div class="cv-entry">
+                            <h3>Bachelor of Fine Arts</h3>
+                            <div class="cv-meta">RMIT University, Melbourne — Jan 2023 – Nov 2025</div>
+                        </div>
+                        <div class="cv-entry">
+                            <h3>Diploma in Fine Arts</h3>
+                            <div class="cv-meta">LASALLE College of the Arts, Singapore — Aug 2017 – Aug 2021</div>
+                        </div>
+                    </div>
+
+                    <div class="cv-section">
+                        <h2>Selected Exhibitions</h2>
+                        <div class="cv-entry">
+                            <h3>RMIT Graduation Show 2025</h3>
+                            <div class="cv-meta">RMIT University, Melbourne — Nov 2025</div>
+                        </div>
+                        <div class="cv-entry">
+                            <h3>Collision</h3>
+                            <div class="cv-meta">RMIT University, Melbourne — 3 Oct 2025</div>
+                            <p>Curator | Multimedia exhibition by the RMIT Video Department, curated by Vanessa Myint & Meg Landry</p>
+                        </div>
+                        <div class="cv-entry">
+                            <h3>A4 Art Exhibition</h3>
+                            <div class="cv-meta">Site Eight Gallery — 30 Jul 2025</div>
+                        </div>
+                        <div class="cv-entry">
+                            <h3>Artist Residency</h3>
+                            <div class="cv-meta">Starch Art Gallery, Singapore — 30 May 2022</div>
+                        </div>
+                        <div class="cv-entry">
+                            <h3>The LASALLE Show 2021</h3>
+                            <div class="cv-meta">Institute of Contemporary Arts Singapore — 2021</div>
+                        </div>
+                        <div class="cv-entry">
+                            <h3>Fluid Spaces</h3>
+                            <div class="cv-meta">2021</div>
+                        </div>
+                        <div class="cv-entry">
+                            <h3>Hearth @ Art Outreach</h3>
+                            <div class="cv-meta">Presented by Starving Artists</div>
+                        </div>
+                    </div>
+
+                    <div class="cv-section">
+                        <h2>Professional Experience</h2>
+                        <div class="cv-entry">
+                            <h3>Art Teacher</h3>
+                            <div class="cv-meta">Artea, Melbourne — 2025 – Present</div>
+                            <p>Teaching adults and kids workshop courses</p>
+                        </div>
+                        <div class="cv-entry">
+                            <h3>Gallery Executive</h3>
+                            <div class="cv-meta">STARCH, Singapore — 2021 – Present</div>
+                            <ul>
+                                <li>Planned and managed exhibitions and projects</li>
+                                <li>Project management for Singapore Art Week, Chan Davies Award: Syn- (Curated by Jeremy Sharma)</li>
+                                <li>Oversaw logistics, gallery invigilation, and management of invigilator team</li>
+                            </ul>
+                        </div>
+                        <div class="cv-entry">
+                            <h3>Art Assistant (Intern)</h3>
+                            <div class="cv-meta">Jan 2021 – Jul 2021</div>
+                            <ul>
+                                <li>Assisted artist Gilles Massot with archiving and digitization of works</li>
+                                <li>Edited images and archival materials</li>
+                            </ul>
+                        </div>
+                        <div class="cv-entry">
+                            <h3>Art Assistant</h3>
+                            <div class="cv-meta">Commissioned Short Film (Unreleased) — Sep 2020</div>
+                            <p>Assisted with production support and creative logistics</p>
+                        </div>
+                        <div class="cv-entry">
+                            <h3>Artist Collaborator</h3>
+                            <div class="cv-meta">A Tree Reborn, UBS x LASALLE Christmas Collaboration — Sep 2019 – Dec 2019</div>
+                            <ul>
+                                <li>Contributed to collaborative Christmas sculpture project</li>
+                                <li>Engaged with non-art communities to promote sustainability through reused materials</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="cv-section">
+                        <h2>Skills & Abilities</h2>
+                        <div class="cv-entry">
+                            <p><strong>Critique</strong> – Experience providing constructive feedback to peers and collaborators, offering new perspectives on artistic work</p>
+                            <p><strong>Adaptive</strong> – Quick problem solving and flexible approach in dynamic situations</p>
+                            <p><strong>Communication</strong> – Strong emphasis on listening, coordination, and teamwork in collaborative settings</p>
+                            <p><strong>Individualism</strong> – Able to voice ideas clearly, contribute unique perspectives, and advocate for effective solutions</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Meowmeow Project Window -->
+        <!-- MEOWMEOWMEOW Project Window -->
         <div id="meowmeow-window" class="window project-window">
             <div class="window-titlebar">
                 <span class="window-icon">📁</span>
-                <span class="window-title">Meowmeowmeow: everybody loves you</span>
+                <span class="window-title">MEOWMEOWMEOW: Everybody Loves You</span>
                 <div class="window-controls">
                     <button class="window-button" onclick="minimizeWindow('meowmeow-window')">−</button>
                     <button class="window-button close" onclick="closeWindow('meowmeow-window', 'meowmeow-task')">×</button>
@@ -674,7 +858,7 @@
             </div>
             <div class="window-content">
                 <div class="project-hero">
-                    <h2>Meowmeowmeow:<br>everybody loves you</h2>
+                    <h2>MEOWMEOWMEOW:<br>Everybody Loves You</h2>
                     <div class="project-meta">
                         <span>2025</span>
                         <span>Interactive / Webcam</span>
@@ -682,10 +866,9 @@
                 </div>
                 <div class="project-section">
                     <iframe src="https://zabbyzabz.github.io/meowmeow-filter-ipad/" 
-                            width="100%" 
-                            height="400px" 
+                            class="project-iframe"
                             frameborder="0"
-                            style="border: 1px solid #2a2a2a; border-radius: 4px; margin-bottom: 20px;"></iframe>
+                            allowfullscreen></iframe>
                     
                     <h3>Info</h3>
                     <div class="project-info">
@@ -702,11 +885,11 @@
             </div>
         </div>
 
-        <!-- Assume Project Window -->
+        <!-- You Think You Know Me Project Window -->
         <div id="assume-window" class="window project-window">
             <div class="window-titlebar">
                 <span class="window-icon">📁</span>
-                <span class="window-title">you think you know me</span>
+                <span class="window-title">You Think You Know Me</span>
                 <div class="window-controls">
                     <button class="window-button" onclick="minimizeWindow('assume-window')">−</button>
                     <button class="window-button close" onclick="closeWindow('assume-window', 'assume-task')">×</button>
@@ -714,14 +897,14 @@
             </div>
             <div class="window-content">
                 <div class="project-hero">
-                    <h2>you think you know me</h2>
+                    <h2>You Think You Know Me</h2>
                     <div class="project-meta">
                         <span>2025</span>
                         <span>Cyanotypes / Receipts / Mixed Media</span>
                     </div>
                 </div>
                 <div class="project-section">
-                    <img src="assume-image.png" alt="you think you know me" class="project-image">
+                    <img src="assume-image.png" alt="You Think You Know Me" class="project-image">
                     
                     <h3>Artist Statement</h3>
                     <div class="project-info">
@@ -745,11 +928,11 @@
             </div>
         </div>
 
-        <!-- A Piece of Home Project Window -->
+        <!-- A Piece Of Home Project Window -->
         <div id="piece-window" class="window project-window">
             <div class="window-titlebar">
                 <span class="window-icon">📁</span>
-                <span class="window-title">A Piece of Home + A Piece Of You</span>
+                <span class="window-title">A Piece Of Home + A Piece Of You</span>
                 <div class="window-controls">
                     <button class="window-button" onclick="minimizeWindow('piece-window')">−</button>
                     <button class="window-button close" onclick="closeWindow('piece-window', 'piece-task')">×</button>
@@ -757,7 +940,7 @@
             </div>
             <div class="window-content">
                 <div class="project-hero">
-                    <h2>A Piece of Home +<br>A Piece Of You</h2>
+                    <h2>A Piece Of Home +<br>A Piece Of You</h2>
                     <div class="project-meta">
                         <span>2025</span>
                         <span>Brass</span>
@@ -765,13 +948,13 @@
                 </div>
                 <div class="project-section">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-                        <img src="piece-of-home-1.png" alt="A Piece of Home - Full view" class="project-image" style="margin: 0;">
-                        <img src="piece-of-home-2.png" alt="A Piece of Home - Details" class="project-image" style="margin: 0;">
+                        <img src="piece-of-home-1.png" alt="A Piece Of Home - Full view" class="project-image" style="margin: 0;">
+                        <img src="piece-of-home-2.png" alt="A Piece Of Home - Details" class="project-image" style="margin: 0;">
                     </div>
                     
                     <h3>Info</h3>
                     <div class="project-info">
-                        <strong>A Piece of Home + A Piece Of You</strong> explores nostalgia.
+                        <strong>A Piece Of Home + A Piece Of You</strong> explores nostalgia.
                         <br><br>
                         <em>A Piece Of You</em> carries the engravement of the song title "You Are My Sunshine". A song my grandmother used to sing to me, even near her death. Encrypted in binary codes for my love for technology. The code is all jumbled up to mimic the first bedroom I slept and grew up in when I first moved to Singapore and met my brothers. There I used to scribble on the walls, thinking it was a giant canvas. My grandmother taught me how to draw stars, resulting in me filling the 'canvas' with stars.
                         <br><br>
@@ -793,7 +976,7 @@
             </div>
         </div>
 
-        <!-- Hangry Project Window -->
+        <!-- Hangry_Consume Project Window -->
         <div id="hungry-window" class="window project-window">
             <div class="window-titlebar">
                 <span class="window-icon">📁</span>
@@ -813,7 +996,7 @@
                 </div>
                 <div class="project-section">
                     <iframe class="project-video"
-                            src="https://www.youtube.com/embed/HKaRZFMv5tQ" 
+                            src="https://www.youtube.com/embed/HKaRZFMv5fQ" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                             allowfullscreen></iframe>
@@ -828,16 +1011,16 @@
                         <div class="detail-label">Themes</div>
                         <div>Consumption, desire, capitalism</div>
                     </div>
-                    <a href="https://www.youtube.com/watch?v=HKaRZFMv5tQ" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
+                    <a href="https://www.youtube.com/watch?v=HKaRZFMv5fQ" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
                 </div>
             </div>
         </div>
 
-        <!-- Digital Girl Project Window -->
+        <!-- D16174! G1rl'5 VL06 Project Window -->
         <div id="digital-girl-window" class="window project-window">
             <div class="window-titlebar">
                 <span class="window-icon">📁</span>
-                <span class="window-title">D16174! G1rl'5 vL06</span>
+                <span class="window-title">D16174! G1rl'5 VL06</span>
                 <div class="window-controls">
                     <button class="window-button" onclick="minimizeWindow('digital-girl-window')">−</button>
                     <button class="window-button close" onclick="closeWindow('digital-girl-window', 'digital-girl-task')">×</button>
@@ -845,7 +1028,7 @@
             </div>
             <div class="window-content">
                 <div class="project-hero">
-                    <h2>D16174! G1rl'5 vL06</h2>
+                    <h2>D16174! G1rl'5 VL06</h2>
                     <div class="project-meta">
                         <span>2024</span>
                         <span>Video</span>
@@ -853,7 +1036,7 @@
                 </div>
                 <div class="project-section">
                     <iframe class="project-video"
-                            src="https://www.youtube.com/embed/HKaRZFMv5tQ" 
+                            src="https://www.youtube.com/embed/Un7hMrho3KI" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                             allowfullscreen></iframe>
@@ -868,16 +1051,16 @@
                         <div class="detail-label">Style</div>
                         <div>Digital aesthetics, vlog format</div>
                     </div>
-                    <a href="https://www.youtube.com/watch?v=HKaRZFMv5tQ" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
+                    <a href="https://www.youtube.com/watch?v=Un7hMrho3KI" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
                 </div>
             </div>
         </div>
 
-        <!-- Killself Project Window -->
+        <!-- KillselfFINAL Project Window -->
         <div id="killself-window" class="window project-window">
             <div class="window-titlebar">
                 <span class="window-icon">📁</span>
-                <span class="window-title">killselfFINAL</span>
+                <span class="window-title">KillselfFINAL</span>
                 <div class="window-controls">
                     <button class="window-button" onclick="minimizeWindow('killself-window')">−</button>
                     <button class="window-button close" onclick="closeWindow('killself-window', 'killself-task')">×</button>
@@ -885,7 +1068,7 @@
             </div>
             <div class="window-content">
                 <div class="project-hero">
-                    <h2>killselfFINAL</h2>
+                    <h2>KillselfFINAL</h2>
                     <div class="project-meta">
                         <span>2024</span>
                         <span>Video / Touch Design</span>
@@ -893,7 +1076,7 @@
                 </div>
                 <div class="project-section">
                     <iframe class="project-video"
-                            src="https://www.youtube.com/embed/G5b1sc1_WDE" 
+                            src="https://www.youtube.com/embed/ObcrxLKocpg" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                             allowfullscreen></iframe>
@@ -908,7 +1091,73 @@
                         <div class="detail-label">Themes</div>
                         <div>Creative process, digital labor</div>
                     </div>
-                    <a href="https://www.youtube.com/watch?v=G5b1sc1_WDE" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
+                    <a href="https://www.youtube.com/watch?v=ObcrxLKocpg" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fluid Spaces Project Window (2020-2023) -->
+        <div id="fluid-window" class="window project-window">
+            <div class="window-titlebar">
+                <span class="window-icon">📁</span>
+                <span class="window-title">Fluid Spaces</span>
+                <div class="window-controls">
+                    <button class="window-button" onclick="minimizeWindow('fluid-window')">−</button>
+                    <button class="window-button close" onclick="closeWindow('fluid-window', 'fluid-task')">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="project-hero">
+                    <h2>Fluid Spaces</h2>
+                    <div class="project-meta">
+                        <span>2021</span>
+                        <span>Mixed Media</span>
+                    </div>
+                </div>
+                <div class="project-section">
+                    <h3>Info</h3>
+                    <div class="project-info">
+                        [Add project description and details for Fluid Spaces]
+                    </div>
+                    <div class="project-details">
+                        <div class="detail-label">Medium</div>
+                        <div>[Add medium]</div>
+                        <div class="detail-label">Year</div>
+                        <div>2021</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- The LASALLE Show 2021 Project Window (2020-2023) -->
+        <div id="lasalle-window" class="window project-window">
+            <div class="window-titlebar">
+                <span class="window-icon">📁</span>
+                <span class="window-title">The LASALLE Show 2021</span>
+                <div class="window-controls">
+                    <button class="window-button" onclick="minimizeWindow('lasalle-window')">−</button>
+                    <button class="window-button close" onclick="closeWindow('lasalle-window', 'lasalle-task')">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="project-hero">
+                    <h2>The LASALLE Show 2021</h2>
+                    <div class="project-meta">
+                        <span>2021</span>
+                        <span>Exhibition</span>
+                    </div>
+                </div>
+                <div class="project-section">
+                    <h3>Info</h3>
+                    <div class="project-info">
+                        Exhibited at Institute of Contemporary Arts Singapore as part of the LASALLE College of the Arts 2021 graduation show.
+                    </div>
+                    <div class="project-details">
+                        <div class="detail-label">Venue</div>
+                        <div>Institute of Contemporary Arts Singapore</div>
+                        <div class="detail-label">Year</div>
+                        <div>2021</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -923,13 +1172,13 @@
                 📄 CV
             </div>
             <div id="meowmeow-task" class="taskbar-item" onclick="openWindow('meowmeow-window', 'meowmeow-task')" style="display: none;">
-                📁 Meowmeowmeow
+                📁 MEOWMEOWMEOW
             </div>
             <div id="assume-task" class="taskbar-item" onclick="openWindow('assume-window', 'assume-task')" style="display: none;">
-                📁 you think you know me
+                📁 You Think You Know Me
             </div>
             <div id="piece-task" class="taskbar-item" onclick="openWindow('piece-window', 'piece-task')" style="display: none;">
-                📁 A Piece of Home
+                📁 A Piece Of Home
             </div>
             <div id="hungry-task" class="taskbar-item" onclick="openWindow('hungry-window', 'hungry-task')" style="display: none;">
                 📁 Hangry_Consume
@@ -938,7 +1187,13 @@
                 📁 D16174!
             </div>
             <div id="killself-task" class="taskbar-item" onclick="openWindow('killself-window', 'killself-task')" style="display: none;">
-                📁 killselfFINAL
+                📁 KillselfFINAL
+            </div>
+            <div id="fluid-task" class="taskbar-item" onclick="openWindow('fluid-window', 'fluid-task')" style="display: none;">
+                📁 Fluid Spaces
+            </div>
+            <div id="lasalle-task" class="taskbar-item" onclick="openWindow('lasalle-window', 'lasalle-task')" style="display: none;">
+                📁 LASALLE Show
             </div>
             <div class="taskbar-clock" id="clock">00:00</div>
         </div>
@@ -946,15 +1201,15 @@
 
     <script>
         // Ensure background video plays
-        document.addEventListener('DOMContentLoaded', function() {
-            const bgVideo = document.getElementById('bg-video');
-            if (bgVideo) {
-                bgVideo.play().catch(e => {
-                    console.log('Video autoplay prevented:', e);
-                    // If autoplay fails, try again on first click
-                    document.addEventListener('click', function playVideo() {
-                        bgVideo.play();
-                        document.removeEventListener('click', playVideo);
+        window.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('bg-video');
+            if (video) {
+                video.play().catch(function(error) {
+                    console.log('Video autoplay prevented, will play on interaction:', error);
+                    // If autoplay is blocked, play on first user interaction
+                    document.body.addEventListener('click', function playVideo() {
+                        video.play();
+                        document.body.removeEventListener('click', playVideo);
                     }, { once: true });
                 });
             }
@@ -988,7 +1243,9 @@
             'piece': { window: 'piece-window', task: 'piece-task' },
             'hungry': { window: 'hungry-window', task: 'hungry-task' },
             'digital-girl': { window: 'digital-girl-window', task: 'digital-girl-task' },
-            'killself': { window: 'killself-window', task: 'killself-task' }
+            'killself': { window: 'killself-window', task: 'killself-task' },
+            'fluid': { window: 'fluid-window', task: 'fluid-task' },
+            'lasalle': { window: 'lasalle-window', task: 'lasalle-task' }
         };
 
         function openProjectWindow(projectId) {
