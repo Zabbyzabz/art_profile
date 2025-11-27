@@ -400,7 +400,18 @@
             color: #c0c0c0;
         }
 
-        /* Project Windows */
+        /* MEOWMEOWMEOW Window - Larger */
+        #meowmeow-window {
+            width: 820px;
+            height: 850px;
+        }
+
+        #meowmeow-window .project-iframe {
+            height: 550px;
+            zoom: 0.75;
+        }
+
+        /* Standard Project Windows */
         .project-window {
             width: 750px;
             height: 580px;
@@ -654,7 +665,11 @@
                 <span class="menu-year">2024</span>
             </div>
             <div class="menu-item" onclick="openProjectWindow('killself'); hideProjectMenu();">
-                <span>KillselfFINAL</span>
+                <span>KillSelf</span>
+                <span class="menu-year">2024</span>
+            </div>
+            <div class="menu-item" onclick="openProjectWindow('firstdate'); hideProjectMenu();">
+                <span>First Date</span>
                 <span class="menu-year">2024</span>
             </div>
             <div class="menu-category">2020-2023 Projects</div>
@@ -996,22 +1011,26 @@
                 </div>
                 <div class="project-section">
                     <iframe class="project-video"
-                            src="https://www.youtube.com/embed/HKaRZFMv5fQ" 
+                            src="https://www.youtube-nocookie.com/embed/Un7hMrho3KI" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                             allowfullscreen></iframe>
                     
                     <h3>Info</h3>
                     <div class="project-info">
-                        A video work interrogating cycles of desire and consumption in contemporary culture. Through visual metaphors and rhythmic editing, the piece explores the insatiable nature of want—how we consume media, products, experiences, and relationships with an endless hunger that never quite satisfies.
+                        <strong>Consume, Consume, Consume</strong>
+                        <br><br>
+                        In the dim glow of the screen, the meal waits, steam fading like a dying breath. I search for the perfect video to sanctify the moment, and in that brief hesitation the food grows cold, as if recoiling from me. The internet festers beside my plate: endless dramas that aren't dramas, voices clamouring for my attention, influencers whispering into the dark.
+                        <br><br>
+                        Our senses decay softly, almost tenderly. Taste dulls first. Touch follows, then Sight. The more we scroll, the more the world around us rots at the edges. We are not devoured by the internet, we are the ravenous ones, gnawing at its infinite body, greedy for one more clip, one more bite of nothing.
                     </div>
                     <div class="project-details">
                         <div class="detail-label">Medium</div>
                         <div>Video</div>
                         <div class="detail-label">Themes</div>
-                        <div>Consumption, desire, capitalism</div>
+                        <div>Consumption, desire, digital decay</div>
                     </div>
-                    <a href="https://www.youtube.com/watch?v=HKaRZFMv5fQ" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
+                    <a href="https://www.youtube.com/watch?v=Un7hMrho3KI" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
                 </div>
             </div>
         </div>
@@ -1036,7 +1055,7 @@
                 </div>
                 <div class="project-section">
                     <iframe class="project-video"
-                            src="https://www.youtube.com/embed/Un7hMrho3KI" 
+                            src="https://www.youtube-nocookie.com/embed/HKaRZFMv5fQ" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                             allowfullscreen></iframe>
@@ -1051,16 +1070,16 @@
                         <div class="detail-label">Style</div>
                         <div>Digital aesthetics, vlog format</div>
                     </div>
-                    <a href="https://www.youtube.com/watch?v=Un7hMrho3KI" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
+                    <a href="https://www.youtube.com/watch?v=HKaRZFMv5fQ" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
                 </div>
             </div>
         </div>
 
-        <!-- KillselfFINAL Project Window -->
+        <!-- KillSelf Project Window -->
         <div id="killself-window" class="window project-window">
             <div class="window-titlebar">
                 <span class="window-icon">📁</span>
-                <span class="window-title">KillselfFINAL</span>
+                <span class="window-title">KillSelf</span>
                 <div class="window-controls">
                     <button class="window-button" onclick="minimizeWindow('killself-window')">−</button>
                     <button class="window-button close" onclick="closeWindow('killself-window', 'killself-task')">×</button>
@@ -1068,7 +1087,7 @@
             </div>
             <div class="window-content">
                 <div class="project-hero">
-                    <h2>KillselfFINAL</h2>
+                    <h2>KillSelf</h2>
                     <div class="project-meta">
                         <span>2024</span>
                         <span>Video / Touch Design</span>
@@ -1076,7 +1095,7 @@
                 </div>
                 <div class="project-section">
                     <iframe class="project-video"
-                            src="https://www.youtube.com/embed/ObcrxLKocpg" 
+                            src="https://www.youtube-nocookie.com/embed/G5b1scL_WDE" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                             allowfullscreen></iframe>
@@ -1090,6 +1109,50 @@
                         <div>Video, touch design</div>
                         <div class="detail-label">Themes</div>
                         <div>Creative process, digital labor</div>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=G5b1scL_WDE" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- First Date Project Window -->
+        <div id="firstdate-window" class="window project-window">
+            <div class="window-titlebar">
+                <span class="window-icon">📁</span>
+                <span class="window-title">First Date</span>
+                <div class="window-controls">
+                    <button class="window-button" onclick="minimizeWindow('firstdate-window')">−</button>
+                    <button class="window-button close" onclick="closeWindow('firstdate-window', 'firstdate-task')">×</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="project-hero">
+                    <h2>First Date</h2>
+                    <div class="project-meta">
+                        <span>2024</span>
+                        <span>Video</span>
+                    </div>
+                </div>
+                <div class="project-section">
+                    <iframe class="project-video"
+                            src="https://www.youtube-nocookie.com/embed/ObcrxLKocpg" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen></iframe>
+                    
+                    <h3>Info</h3>
+                    <div class="project-info">
+                        This work began with a story a friend told me about her first date. She was simply enjoying a slice of cake when the man watching her said, "I wish I was that fork." What he imagined was desire. What she felt was disgust. Something as innocent as eating became sexualised, and something as sweet as cake became tainted. That shift — that quiet violation — is where this piece lives.
+                        <br><br>
+                        I was interested in how the male gaze can turn a woman into an object without her consent, even in the smallest moments. The work reflects the tension between wanting to feel safe and being seen in ways that warp your sense of self. As the imagery fragments and the body becomes harder to recognise, the piece leans into female rage: soft, controlled, and simmering.
+                        <br><br>
+                        It speaks to the emotional labour of navigating heterosexual relationships, where understanding and anger coexist, and where desire too often becomes entitlement.
+                    </div>
+                    <div class="project-details">
+                        <div class="detail-label">Medium</div>
+                        <div>Video</div>
+                        <div class="detail-label">Themes</div>
+                        <div>Male gaze, consent, female rage, objectification</div>
                     </div>
                     <a href="https://www.youtube.com/watch?v=ObcrxLKocpg" target="_blank" class="action-button">WATCH ON YOUTUBE →</a>
                 </div>
@@ -1187,7 +1250,10 @@
                 📁 D16174!
             </div>
             <div id="killself-task" class="taskbar-item" onclick="openWindow('killself-window', 'killself-task')" style="display: none;">
-                📁 KillselfFINAL
+                📁 KillSelf
+            </div>
+            <div id="firstdate-task" class="taskbar-item" onclick="openWindow('firstdate-window', 'firstdate-task')" style="display: none;">
+                📁 First Date
             </div>
             <div id="fluid-task" class="taskbar-item" onclick="openWindow('fluid-window', 'fluid-task')" style="display: none;">
                 📁 Fluid Spaces
@@ -1244,6 +1310,7 @@
             'hungry': { window: 'hungry-window', task: 'hungry-task' },
             'digital-girl': { window: 'digital-girl-window', task: 'digital-girl-task' },
             'killself': { window: 'killself-window', task: 'killself-task' },
+            'firstdate': { window: 'firstdate-window', task: 'firstdate-task' },
             'fluid': { window: 'fluid-window', task: 'fluid-task' },
             'lasalle': { window: 'lasalle-window', task: 'lasalle-task' }
         };
